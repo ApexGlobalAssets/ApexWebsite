@@ -1,0 +1,30 @@
+name: Deploy to Ionos
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Ionos via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: access-5019986673.webspace-host.com
+          port: 22
+          protocol: sftp
+          username: su980931
+          password: ${{ secrets.SFTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/readme.txt
+            **/gitignore.sh
